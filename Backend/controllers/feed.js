@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
 
 const Post = require('../models/post');
 
@@ -88,7 +88,7 @@ exports.updatePost = (req, res, next) => {
   const content = req.body.content;
   let imageUrl = req.body.image;
   if (req.file) {
-    imageUrl = req.file.path;
+    imageUrl = req.file.path.replace(/\\/g, '/');
   }
   if (!imageUrl) {
     const error = new Error('No file picked.');
@@ -106,8 +106,9 @@ exports.updatePost = (req, res, next) => {
         clearImage(post.imageUrl);
       }
       post.title = title;
-      post.imageUrl = imageUrl;
       post.content = content;
+      console.log('imageUrl',imageUrl)
+      post.imageUrl = imageUrl;
       return post.save();
     })
     .then(result => {

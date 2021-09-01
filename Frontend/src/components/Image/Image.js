@@ -2,15 +2,16 @@ import React from 'react';
 
 import './Image.css';
 
-const image = props => (
-  <div
+const image = props => {
+  console.log('asfsafadfa',props.imageUrl)
+  return (<div
     className="image"
     style={{
       backgroundImage: `url('${props.imageUrl}')`,
       backgroundSize: props.contain ? 'contain' : 'cover',
       backgroundPosition: props.left ? 'left' : 'center'
     }}
-  />
-);
+  />)
+  };
 
 export default image;
