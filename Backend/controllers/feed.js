@@ -32,7 +32,7 @@ exports.createPost = (req, res, next) => {
     error.statusCode = 422;
     throw error;
   }
-  const imageUrl = req.file.path;
+  const imageUrl = req.file.path.replace(/\\/g, '/');;
   const title = req.body.title;
   const content = req.body.content;
   const post = new Post({
@@ -46,7 +46,7 @@ exports.createPost = (req, res, next) => {
     .then(result => {
       res.status(201).json({
         message: 'Post created successfully!',
-        post: result
+        post: result 
       });
     })
     .catch(err => {
@@ -76,7 +76,7 @@ exports.getPost = (req, res, next) => {
     });
 };
 
-exports.updatePost = (req, res, next) => {
+exports.updatePost = (req, res, next) => { 
   const postId = req.params.postId;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -121,6 +121,31 @@ exports.updatePost = (req, res, next) => {
       next(err);
     });
 };
+
+exports.deletePost = (req, res, next) => {
+  const postId = req.params.postId;
+  
+  Post.findById(postId)
+  .then(post=>{
+    if (!post) {
+      const error = new Error('Could not find post.');
+      error.statusCode = 404;
+      throw error;
+    }
+    // When added authentication then check if user is logged in!!
+    clearImage(post.imageUrl);
+    return Post.findByIdAndRemove(postId);
+  })
+  .then(result => {
+    return res.status(200).json({message: 'Post has been deleted!', result: result});
+  })
+  .catch(err=> {
+    if (!err.statusCode) {
+        err.statusCode = 500;
+      }
+      next(err);
+    });
+}
 
 const clearImage = filePath => {
   filePath = path.join(__dirname, '..', filePath);
