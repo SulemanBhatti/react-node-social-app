@@ -19,7 +19,7 @@ router.put('/signup', [
     })
     .normalizeEmail(),
     // Validating user password
-    body('pasword')
+    body('password')
     .trim()
     .isLength({min: 5}),
     // Validating user name
