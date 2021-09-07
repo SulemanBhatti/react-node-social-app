@@ -5,6 +5,7 @@ const { validationResult } = require('express-validator');
 
 const Post = require('../models/post');
 
+// Get posts from user
 exports.getPosts = (req, res, next) => {
   const currentPage = req.query.page || 1;
   const perPage = 2;
@@ -30,6 +31,7 @@ exports.getPosts = (req, res, next) => {
   });
 };
 
+// Create post send by user
 exports.createPost = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -67,6 +69,7 @@ exports.createPost = (req, res, next) => {
     });
 };
 
+// Get post for user using Post ID
 exports.getPost = (req, res, next) => {
   const postId = req.params.postId;
   Post.findById(postId)
@@ -86,6 +89,7 @@ exports.getPost = (req, res, next) => {
     });
 };
 
+//Update post from user
 exports.updatePost = (req, res, next) => { 
   const postId = req.params.postId;
   const errors = validationResult(req);
@@ -132,6 +136,7 @@ exports.updatePost = (req, res, next) => {
     });
 };
 
+//Delete post required by user
 exports.deletePost = (req, res, next) => {
   const postId = req.params.postId;
   
@@ -157,6 +162,7 @@ exports.deletePost = (req, res, next) => {
     });
 }
 
+// Delete images after they are removed from posts
 const clearImage = filePath => {
   filePath = path.join(__dirname, '..', filePath);
   fs.unlink(filePath, err => console.log(err));
