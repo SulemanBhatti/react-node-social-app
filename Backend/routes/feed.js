@@ -12,6 +12,7 @@ router.get('/posts', feedController.getPosts);
 
 router.get('/post/:postId', feedController.getPost);
 
+// /feed/post Create new post sent by user
 router.post('/post', [
     body('title').trim().isLength({min:5}),
     body('content').trim().isLength({min:5})
