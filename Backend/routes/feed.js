@@ -5,11 +5,9 @@ const feedController = require('../controllers/feed');
 const router = express.Router();
 
 // GET /feed/posts
-
 router.get('/posts', feedController.getPosts);
 
 // POST /feed/posts
-
 router.get('/post/:postId', feedController.getPost);
 
 // /feed/post Create new post sent by user
