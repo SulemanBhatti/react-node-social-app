@@ -36,7 +36,7 @@ class Feed extends Component {
 
     this.loadPosts();
   }
-
+  //call to backend to get posts and display them to user
   loadPosts = direction => {
     if (direction) {
       this.setState({ postsLoading: true, posts: [] });
