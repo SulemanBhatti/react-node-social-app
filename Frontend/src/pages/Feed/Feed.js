@@ -217,7 +217,6 @@ class Feed extends Component {
   };
 
   render() {
-    console.log('DATA-1', this.state.posts);
     return (
       <Fragment>
         <ErrorHandler error={this.state.error} onHandle={this.errorHandler} />
