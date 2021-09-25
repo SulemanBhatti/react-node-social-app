@@ -52,6 +52,7 @@ exports.login = (req, res, next) => {
         return bcrypt.compare(password, user.password);
     })
     .then(isEqual => {
+        //check if encrypt password matches with backend DB
         if(!isEqual){
             const error = new Error('Wrong password!');
             error.statusCode = 401;
