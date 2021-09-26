@@ -42,6 +42,7 @@ exports.login = (req, res, next) => {
     const password = req.body.password;
 
     User.findOne({email: email})
+    //find user and if exists then compare its bcrypt password  
     .then(user =>{
         if(!user){
             const error = new Error('A user with this email does not exist');
@@ -58,7 +59,7 @@ exports.login = (req, res, next) => {
             error.statusCode = 401;
             throw error;
         }
-        //get JWT token and send it in response to Frontend for login atuh purpose
+        //get JWT token and send it in response to Frontend for login auth purpose
         const token = jwt.sign({
             email: loadedUser.email,
             userId: loadedUser._id.toString()
