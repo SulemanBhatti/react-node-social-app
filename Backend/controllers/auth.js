@@ -58,6 +58,7 @@ exports.login = (req, res, next) => {
             error.statusCode = 401;
             throw error;
         }
+        //get JWT token and send it in response to Frontend for login atuh purpose
         const token = jwt.sign({
             email: loadedUser.email,
             userId: loadedUser._id.toString()
