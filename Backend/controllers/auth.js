@@ -37,6 +37,7 @@ exports.signUp = (req, res, next) => {
       })
 };
 
+// Validate user login data and send erorr/response based on that
 exports.login = (req, res, next) => {
     email = req.body.email;
     const password = req.body.password;
