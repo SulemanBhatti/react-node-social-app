@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 
+//Check authorization and verify using JWT then send response if authenticated
 module.exports = ( req, res, next ) =>{
     const authHeader = req.get('Authorization');
     if(!authHeader) {
