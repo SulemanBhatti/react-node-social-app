@@ -119,14 +119,16 @@ exports.updatePost = (req, res, next) => {
     error.statusCode = 422;
     throw error;
   }
-  Post.findById(postId)
+  Post
+  .findById(postId)
+  .populate('creator')
     .then(post => {
       if (!post) {
         const error = new Error('Could not find post.');
         error.statusCode = 404;
         throw error;
       }
-      if(post.creator.toString() !== req.userId){
+      if(post.creator._id.toString() !== req.userId){
         const error = new Error('Not Authorized');
         error.statusCode = 403;
         throw error;
@@ -136,12 +138,15 @@ exports.updatePost = (req, res, next) => {
       }
       post.title = title;
       post.content = content;
-      console.log('imageUrl',imageUrl)
       post.imageUrl = imageUrl;
       return post.save();
     })
     .then(result => {
-      res.status(200).json({ message: 'Post updated!', post: result });
+      res.status(200).json({ 
+        message: 'Post updated!', 
+        post: result, 
+        creator: { _id: result.creator._id, name: result.creator.name } 
+      });
     })
     .catch(err => {
       if (!err.statusCode) {

@@ -143,9 +143,10 @@ class Feed extends Component {
           _id: resData.post._id,
           title: resData.post.title,
           content: resData.post.content,
-          creator: resData.creator,
+          creator: resData.post.creator,
           createdAt: resData.post.createdAt
         };
+        console.log('DATA-2', post, resData);
         this.setState(prevState => {
           let updatedPosts = [...prevState.posts];
           if (prevState.editPost) {
@@ -217,6 +218,7 @@ class Feed extends Component {
   };
 
   render() {
+    console.log('DATA-1', this.state.posts);
     return (
       <Fragment>
         <ErrorHandler error={this.state.error} onHandle={this.errorHandler} />
