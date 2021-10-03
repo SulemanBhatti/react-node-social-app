@@ -167,7 +167,7 @@ exports.deletePost = (req, res, next) => {
       error.statusCode = 403;
       throw error;
     }
-    // When added authentication then check if user is logged in!!
+    // Clear Image When added authentication and after checking if user is logged in!!
     clearImage(post.imageUrl);
     return Post.findByIdAndRemove(postId);
   })
