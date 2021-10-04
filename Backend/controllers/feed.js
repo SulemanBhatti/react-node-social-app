@@ -145,6 +145,7 @@ exports.updatePost = (req, res, next) => {
       res.status(200).json({ 
         message: 'Post updated!', 
         post: result, 
+        //send name and ID of user who created the post
         creator: { _id: result.creator._id, name: result.creator.name } 
       });
     })
