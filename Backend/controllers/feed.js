@@ -128,6 +128,7 @@ exports.updatePost = (req, res, next) => {
         error.statusCode = 404;
         throw error;
       }
+      // If userID does not match then do not update anything and send auth error
       if(post.creator._id.toString() !== req.userId){
         const error = new Error('Not Authorized');
         error.statusCode = 403;
