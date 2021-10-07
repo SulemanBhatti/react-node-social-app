@@ -178,8 +178,16 @@ exports.deletePost = (req, res, next) => {
     clearImage(post.imageUrl);
     return Post.findByIdAndRemove(postId);
   })
-  .then(result => {
-    return res.status(200).json({message: 'Post has been deleted!', result: result});
+  .then(res=>{
+    return User.findById(req.user);
+  })
+  .then(user => {
+    user.posts.pull(postId);
+    return user.save();
+  })
+  .then(result=>{
+    return res.status(200)
+    .json({message: 'Post has been deleted!', result: result});
   })
   .catch(err=> {
     if (!err.statusCode) {
