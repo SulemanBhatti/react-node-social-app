@@ -18,7 +18,8 @@ class Feed extends Component {
     status: '',
     postPage: 1,
     postsLoading: true,
-    editLoading: false
+    editLoading: false,
+    creatorName: ''
   };
 
   componentDidMount() {
@@ -72,6 +73,7 @@ class Feed extends Component {
           totalPosts: resData.totalItems,
           postsLoading: false
         });
+        this.setState({creatorName: resData.post.creator});
       })
       .catch(this.catchError);
   };
@@ -146,7 +148,6 @@ class Feed extends Component {
           creator: resData.post.creator,
           createdAt: resData.post.createdAt
         };
-        console.log('DATA-2', post, resData);
         this.setState(prevState => {
           let updatedPosts = [...prevState.posts];
           if (prevState.editPost) {
@@ -218,7 +219,6 @@ class Feed extends Component {
   };
 
   render() {
-    console.log('DATA-1', this.state.posts);
     return (
       <Fragment>
         <ErrorHandler error={this.state.error} onHandle={this.errorHandler} />
@@ -268,7 +268,7 @@ class Feed extends Component {
                 <Post
                   key={post._id}
                   id={post._id}
-                  author={post.creator.name}
+                  author={post.creator.name ? post.creator.name : this.state.creatorName}
                   date={new Date(post.createdAt).toLocaleDateString('en-US')}
                   title={post.title}
                   image={post.imageUrl}

@@ -10,6 +10,19 @@ exports.getPosts = (req, res, next) => {
   const currentPage = req.query.page || 1;
   const perPage = 2;
   let totalItems;
+  let creatorName =  '';
+
+  User.findById(req.userId)
+  .then(result=>{
+    creatorName = result.name;
+  })
+  .catch(err=>{
+    if(!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  });
+
   Post.find()
   .countDocuments()
   .then(count => {
@@ -21,7 +34,7 @@ exports.getPosts = (req, res, next) => {
   .then(posts => {
     res
       .status(200)
-      .json({ message: 'Fetched posts successfully.', posts: posts, totalItems: totalItems });
+      .json({ message: 'Fetched posts successfully.', posts: posts, post:{creator: creatorName}, totalItems: totalItems });
   })
   .catch(err=>{
     if(!err.statusCode) {
@@ -179,7 +192,7 @@ exports.deletePost = (req, res, next) => {
     return Post.findByIdAndRemove(postId);
   })
   .then(res=>{
-    return User.findById(req.user);
+    return User.findById(req.userId)
   })
   .then(user => {
     user.posts.pull(postId);
