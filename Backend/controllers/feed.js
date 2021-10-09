@@ -5,43 +5,38 @@ const { validationResult } = require('express-validator');
 
 const Post = require('../models/post');
 const User = require('../models/user');
+
 // Get posts from user
-exports.getPosts = (req, res, next) => {
+exports.getPosts = async (req, res, next) => {
   const currentPage = req.query.page || 1;
   const perPage = 2;
   let totalItems;
   let creatorName =  '';
 
-  User.findById(req.userId)
-  .then(result=>{
-    creatorName = result.name;
-  })
-  .catch(err=>{
+  try {
+    creatorName = await User.findById(req.userId)
+  }
+  catch(err){
     if(!err.statusCode) {
       err.statusCode = 500;
     }
     next(err);
-  });
-
-  Post.find()
-  .countDocuments()
-  .then(count => {
-    totalItems = count;
-    return Post.find()
+  }
+  
+  try{
+    totalItems = await  Post.find().countDocuments();
+    let posts = await Post.find()
     .skip((currentPage - 1) * perPage)
     .limit(perPage);
-  })
-  .then(posts => {
-    res
+    return res
       .status(200)
-      .json({ message: 'Fetched posts successfully.', posts: posts, post:{creator: creatorName}, totalItems: totalItems });
-  })
-  .catch(err=>{
+      .json({ message: 'Fetched posts successfully.', posts: posts, post:{creator: creatorName.name}, totalItems: totalItems });
+  }catch(err){
     if(!err.statusCode) {
       err.statusCode = 500;
     }
     next(err);
-  });
+  }
 };
 
 // Create post send by user
