@@ -27,6 +27,7 @@ exports.signUp = (req, res, next) => {
           });
          return user.save();
       })
+      //send response to FE after successful creation of user after signup
       .then(result=>{
           res.status(201).json({message: 'User created!', userId: result._id});
       })
