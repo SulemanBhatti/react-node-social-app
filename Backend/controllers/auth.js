@@ -53,6 +53,7 @@ exports.login = (req, res, next) => {
             throw error;
         }
         loadedUser = user;
+        //compare password entered by user with user's password in DB
         return bcrypt.compare(password, user.password);
     })
     .then(isEqual => {
