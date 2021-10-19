@@ -27,6 +27,7 @@ exports.getPosts = async (req, res, next) => {
     totalItems = await  Post.find().countDocuments();
     let posts = await Post.find()
     .skip((currentPage - 1) * perPage)
+    //set limit per page and send to UI
     .limit(perPage);
     return res
       .status(200)
