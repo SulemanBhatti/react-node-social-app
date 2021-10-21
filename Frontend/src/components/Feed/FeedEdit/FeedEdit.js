@@ -118,7 +118,7 @@ class FeedEdit extends Component {
     });
     this.props.onCancelEdit();
   };
-
+  // to handle and detect andy changes made by BE
   acceptPostChangeHandler = () => {
     const post = {
       title: this.state.postForm.title.value,
