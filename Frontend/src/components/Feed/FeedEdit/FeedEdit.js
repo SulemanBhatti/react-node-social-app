@@ -125,6 +125,7 @@ class FeedEdit extends Component {
       image: this.state.postForm.image.value,
       content: this.state.postForm.content.value
     };
+    // to update post once user finishes editing it
     this.props.onFinishEdit(post);
     this.setState({
       postForm: POST_FORM,
