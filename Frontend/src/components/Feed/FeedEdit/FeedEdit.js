@@ -111,6 +111,7 @@ class FeedEdit extends Component {
     });
   };
 
+  //To cancel the edit if user cancels creating/updating the post
   cancelPostChangeHandler = () => {
     this.setState({
       postForm: POST_FORM,
@@ -118,6 +119,7 @@ class FeedEdit extends Component {
     });
     this.props.onCancelEdit();
   };
+
   // to handle and detect andy changes made by BE
   acceptPostChangeHandler = () => {
     const post = {
