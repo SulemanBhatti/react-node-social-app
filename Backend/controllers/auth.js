@@ -31,6 +31,7 @@ exports.signUp = (req, res, next) => {
       .then(result=>{
           res.status(201).json({message: 'User created!', userId: result._id});
       })
+      //Error catching
       .catch(err => {
         if(!err.statusCode) {
             err.statusCode = 500;
